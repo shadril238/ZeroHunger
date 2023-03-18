@@ -127,7 +127,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Auth\AdminAccess.cs" />
+    <Compile Include="Auth\EmployeeAccess.cs" />
+    <Compile Include="Auth\ResturantAccess.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ResturantController.cs" />
     <Compile Include="EF\Models\AssignedRequest.cs" />
     <Compile Include="EF\Models\CollectRequest.cs" />
     <Compile Include="EF\Models\Employee.cs" />
@@ -141,7 +148,13 @@
     <Compile Include="Migrations\202303172101098_AllTableAdded_PkFk-V1.0.designer.cs">
       <DependentUpon>202303172101098_AllTableAdded_PkFk-V1.0.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303181940214_FoodItemTable_FixStringLengthOfName-V1.1.cs" />
+    <Compile Include="Migrations\202303181940214_FoodItemTable_FixStringLengthOfName-V1.1.designer.cs">
+      <DependentUpon>202303181940214_FoodItemTable_FixStringLengthOfName-V1.1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CollectRequestModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,10 +193,13 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\LoginEmp.cshtml" />
+    <Content Include="Views\Admin\CollectRequestList.cshtml" />
+    <Content Include="Views\Resturant\CreateCollectRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -201,6 +217,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202303172101098_AllTableAdded_PkFk-V1.0.resx">
       <DependentUpon>202303172101098_AllTableAdded_PkFk-V1.0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303181940214_FoodItemTable_FixStringLengthOfName-V1.1.resx">
+      <DependentUpon>202303181940214_FoodItemTable_FixStringLengthOfName-V1.1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
