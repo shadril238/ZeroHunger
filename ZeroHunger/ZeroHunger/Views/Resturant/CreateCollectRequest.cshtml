@@ -3,7 +3,7 @@
     ViewBag.Title = "CreateCollectRequest";
 }
 
-<h2>CreateCollectRequest</h2>
+<h2>Create Collect Request</h2>
 <form method="post">
     <label for="foodName">Food Name:</label>
     <input type="text" id="foodName" name="FoodName"><br>
@@ -11,22 +11,12 @@
     <label for="foodQuantity">Food Quantity:</label>
     <input type="number" id="foodQuantity" name="FoodQuantity"><br>
 
-    <label for="resturantName">Restaurant Name:</label>
-    <input type="text" id="resturantName" name="ResturantName"><br>
-
-    <label for="resturantLocation">Restaurant Location:</label>
-    <input type="text" id="resturantLocation" name="ResturantAddress"><br>
-
-    <label for="startTime">Start Time:</label>
-    <input type="time" id="startTime" name="StartTime"><br>
-
-    <label for="endTime">End Time:</label>
-    <input type="time" id="endTime" name="EndTime"><br>
-
-    <label for="contact">Contact:</label>
-    <input type="text" id="contact" name="Contact"><br>
-    <input type="hidden" id="status" name="Status" value="Open"><br>
-
+    <label for="time-difference">Max Time:</label>
+    <input type="number" id="time-difference" name="Hours" placeholder="Hours"> : 
+    <input type="number" id="time-difference" name="Minutes" placeholder="Minutes">
+    <br>
+    <input type="hidden" id="contact" name="Contact">
+    <input type="hidden" id="status" name="Status" value="Open">
     <input type="submit" value="Submit">
 </form>
 

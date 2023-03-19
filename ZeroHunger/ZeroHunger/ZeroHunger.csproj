@@ -153,8 +153,11 @@
       <DependentUpon>202303181940214_FoodItemTable_FixStringLengthOfName-V1.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AssignedRequestModel.cs" />
     <Compile Include="Models\CollectRequestModel.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ResturantModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +199,9 @@
     <Content Include="Views\Login\LoginEmp.cshtml" />
     <Content Include="Views\Admin\CollectRequestList.cshtml" />
     <Content Include="Views\Resturant\CreateCollectRequest.cshtml" />
+    <Content Include="Views\Login\LoginResturant.cshtml" />
+    <Content Include="Views\Resturant\CollectRequestList.cshtml" />
+    <Content Include="Views\Admin\AssignCollectRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

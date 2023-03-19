@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "CollectRequestList";
+}
+
+<h2>CollectRequestList</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>Food Name</th>
+        <th>Quantity</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FoodName</td>
+            <td>@item.FoodQuantity</td>
+            <td>@item.StartTime</td>
+            <td>@item.EndTime</td>
+            <td>@item.EndTime</td>
+            <td>@item.Status</td>
+            <td><a href="/Home/Details/@item.Id">Datails</a></td>
+            <td><a href="/Home/Edit/@item.Id">Edit</a></td>
+        </tr>
+    }
+</table>
+

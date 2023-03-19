@@ -48,7 +48,32 @@ namespace ZeroHunger.Controllers
                 collectRequests.Add(collectRequest);
             }
             return View(collectRequests);
+        }
 
+        public ActionResult AssignCollectRequest(int? id)
+        {
+            ZeroHungerContext db = new ZeroHungerContext();
+            var collReq=(from c in db.CollectRequests 
+                           where c.Id==id
+                           select c).SingleOrDefault();
+            var emp = (from e in db.Employees
+                       where e.Role.Equals("employee")
+                       select new
+                       {
+                           Id = e.Id,
+                           Name = e.Name
+                       }).ToList();
+
+            //List<EmployeeModel> employees = new List<EmployeeModel>();
+            //foreach (var item in emp)
+            //{
+            //    EmployeeModel employee = new EmployeeModel();
+            //    employee.Id = item.Id;
+            //    employee.Name = item.Name;
+            //    employees.Add(employee);
+            //}
+            ViewBag.Employees = new SelectList(emp, "Id", "Name");
+            return View(collReq);
         }
     }
 }
