@@ -14,6 +14,7 @@
         <th>End Time</th>
         <th>Contact</th>
         <th>Status</th>
+        <th>Assign Employee</th>
     </tr>
     @foreach (var item in Model)
     {
@@ -26,8 +27,13 @@
             <td>@item.EndTime</td>
             <td>@item.Contact</td>
             <td>@item.Status</td>
-            <td><a href="/Home/Details/@item.Id">Datails</a></td>
-            <td><a href="/Home/Edit/@item.Id">Edit</a></td>
+
+            <form action="" method="post">
+            <td>@Html.DropDownList("EmployeeId ", (SelectList)ViewBag.Employees, "Assign an Employee")</td>
+            <input type="hidden" name="CollectRequestId" value="@item.Id" />
+            <td><input type="submit" value="Assign" class="btn btn-danger"></td>
+            </form>
+
         </tr>
     }
 </table>

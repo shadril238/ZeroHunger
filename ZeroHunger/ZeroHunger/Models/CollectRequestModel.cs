@@ -9,7 +9,7 @@ namespace ZeroHunger.Models
     public class CollectRequestModel
     {
         [Required]
-        public string Id { get; set; }
+        public int Id { get; set; }
         [Required, StringLength(50)]
         public string FoodName { get; set; }
         [Required]

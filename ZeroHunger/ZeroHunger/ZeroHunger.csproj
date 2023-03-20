@@ -153,7 +153,6 @@
       <DependentUpon>202303181940214_FoodItemTable_FixStringLengthOfName-V1.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AssignedRequestModel.cs" />
     <Compile Include="Models\CollectRequestModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\LoginModel.cs" />

@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using ZeroHunger.EF;
+using ZeroHunger.EF.Models;
 using ZeroHunger.Models;
 
 namespace ZeroHunger.Controllers
@@ -16,14 +17,16 @@ namespace ZeroHunger.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public ActionResult CollectRequestList()
         {
             ZeroHungerContext db=new ZeroHungerContext();
             var reqList=from f in db.FoodItems
                         join c in db.CollectRequests on f.CollectRequestId equals c.Id
                         join r in db.Resturants on c.ResturantId equals r.Id
+                        where c.Status.Equals("Open")
                         select new {
+                            Id=c.Id,
                             FoodName= f.Name,
                             FoodQuantity=f.Quantity,
                             ResturantName=r.Name,
@@ -37,6 +40,7 @@ namespace ZeroHunger.Controllers
             foreach(var item in reqList)
             {
                 CollectRequestModel collectRequest=new CollectRequestModel();
+                collectRequest.Id =item.Id;
                 collectRequest.FoodName= item.FoodName;
                 collectRequest.FoodQuantity= item.FoodQuantity;
                 collectRequest.ResturantName= item.ResturantName;
@@ -47,15 +51,6 @@ namespace ZeroHunger.Controllers
                 collectRequest.Status= item.Status;
                 collectRequests.Add(collectRequest);
             }
-            return View(collectRequests);
-        }
-
-        public ActionResult AssignCollectRequest(int? id)
-        {
-            ZeroHungerContext db = new ZeroHungerContext();
-            var collReq=(from c in db.CollectRequests 
-                           where c.Id==id
-                           select c).SingleOrDefault();
             var emp = (from e in db.Employees
                        where e.Role.Equals("employee")
                        select new
@@ -63,17 +58,37 @@ namespace ZeroHunger.Controllers
                            Id = e.Id,
                            Name = e.Name
                        }).ToList();
-
-            //List<EmployeeModel> employees = new List<EmployeeModel>();
-            //foreach (var item in emp)
-            //{
-            //    EmployeeModel employee = new EmployeeModel();
-            //    employee.Id = item.Id;
-            //    employee.Name = item.Name;
-            //    employees.Add(employee);
-            //}
             ViewBag.Employees = new SelectList(emp, "Id", "Name");
-            return View(collReq);
+            return View(collectRequests);
+        }
+
+        //public ActionResult AssignCollectRequest(int? id)
+        //{
+        //    ZeroHungerContext db = new ZeroHungerContext();
+        //    var collReq=(from c in db.CollectRequests 
+        //                   where c.Id==id
+        //                   select c).SingleOrDefault();
+
+        //    return View(collReq);
+        //}
+        [HttpPost]
+        public ActionResult CollectRequestList(int EmployeeId, int CollectRequestId)
+        {
+            AssignedRequest assignedRequest= new AssignedRequest();
+            assignedRequest.EmployeeId = EmployeeId;
+            assignedRequest.CollectRequestId= CollectRequestId;
+            ZeroHungerContext db = new ZeroHungerContext();
+
+            db.AssignedRequests.Add(assignedRequest);
+            db.SaveChanges();
+            var collReq=(from c in db.CollectRequests
+                         where c.Id == assignedRequest.CollectRequestId && c.Status.Equals("Open")
+                         select c).SingleOrDefault();
+            var exst = collReq;
+            collReq.Status = "Processing";
+            db.Entry(exst).CurrentValues.SetValues(collReq);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
