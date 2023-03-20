@@ -12,10 +12,7 @@ namespace ZeroHunger.Controllers
     public class LoginController : Controller
     {
         // GET: Login
-        public ActionResult Index()
-        {
-            return View();
-        }
+
         [HttpGet]
         public ActionResult LoginEmp()
         {
@@ -33,7 +30,7 @@ namespace ZeroHunger.Controllers
                     FormsAuthentication.SetAuthCookie(emp.Email, false);
                     if (emp.Role == "admin")
                     {
-                        return RedirectToAction("Dashboard", "Admin");
+                        return RedirectToAction("CollectRequestList", "Admin");
                     }
                     else if (emp.Role == "employee")
                     {

@@ -13,14 +13,11 @@ namespace ZeroHunger.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
-        public ActionResult Index()
-        {
-            return View();
-        }
         [HttpGet]
         public ActionResult CollectRequestList()
         {
             ZeroHungerContext db=new ZeroHungerContext();
+            //Collect Request List (details)
             var reqList=from f in db.FoodItems
                         join c in db.CollectRequests on f.CollectRequestId equals c.Id
                         join r in db.Resturants on c.ResturantId equals r.Id
@@ -51,6 +48,7 @@ namespace ZeroHunger.Controllers
                 collectRequest.Status= item.Status;
                 collectRequests.Add(collectRequest);
             }
+            //Select Employees Name
             var emp = (from e in db.Employees
                        where e.Role.Equals("employee")
                        select new
@@ -61,34 +59,107 @@ namespace ZeroHunger.Controllers
             ViewBag.Employees = new SelectList(emp, "Id", "Name");
             return View(collectRequests);
         }
-
-        //public ActionResult AssignCollectRequest(int? id)
-        //{
-        //    ZeroHungerContext db = new ZeroHungerContext();
-        //    var collReq=(from c in db.CollectRequests 
-        //                   where c.Id==id
-        //                   select c).SingleOrDefault();
-
-        //    return View(collReq);
-        //}
         [HttpPost]
-        public ActionResult CollectRequestList(int EmployeeId, int CollectRequestId)
+        public ActionResult CollectRequestList(AssignedRequest model)
         {
-            AssignedRequest assignedRequest= new AssignedRequest();
-            assignedRequest.EmployeeId = EmployeeId;
-            assignedRequest.CollectRequestId= CollectRequestId;
             ZeroHungerContext db = new ZeroHungerContext();
 
-            db.AssignedRequests.Add(assignedRequest);
+            db.AssignedRequests.Add(model);
             db.SaveChanges();
             var collReq=(from c in db.CollectRequests
-                         where c.Id == assignedRequest.CollectRequestId && c.Status.Equals("Open")
+                         where c.Id == model.CollectRequestId && c.Status.Equals("Open")
                          select c).SingleOrDefault();
             var exst = collReq;
             collReq.Status = "Processing";
             db.Entry(exst).CurrentValues.SetValues(collReq);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("CollectRequestList");
+        }
+        
+        public ActionResult AssignedRequestList()
+        {
+            ZeroHungerContext db = new ZeroHungerContext();
+            var reqList = from a in db.AssignedRequests
+                          join e in db.Employees on a.EmployeeId equals e.Id
+                          join c in db.CollectRequests on a.CollectRequestId equals c.Id
+                          join f in db.FoodItems on c.Id equals f.CollectRequestId
+                          join r in db.Resturants on c.ResturantId equals r.Id
+                          where c.Status.Equals("Processing")
+                          select new
+                          {
+                              FoodName = f.Name,
+                              FoodQuantity = f.Quantity,
+                              ResturantName = r.Name,
+                              ResturantAddress = r.Address,
+                              StartTime = c.StartTime,
+                              EndTime = c.EndTime,
+                              ResturantContact = r.Contact,
+                              Status = c.Status,
+                              EmpName=e.Name,
+                              EmpContact=e.Contact
+                          };
+            var assignedRequests = new List<AssignedRequestModel>();
+            foreach (var item in reqList)
+            {
+                AssignedRequestModel assignedRequest = new AssignedRequestModel
+                {
+                    ResturantName = item.ResturantName,
+                    ResturantAddress = item.ResturantAddress,
+                    ResturantContact = item.ResturantContact,
+                    FoodName = item.FoodName,
+                    FoodQuantity = item.FoodQuantity,
+                    DeliveredBy=item.EmpName,
+                    DeliveredByContact=item.EmpContact,
+                    StartTime=item.StartTime,
+                    EndTime=item.EndTime,
+                    Status= item.Status
+                };
+                assignedRequests.Add(assignedRequest);
+            }
+            return View(assignedRequests);
+        }
+
+        public ActionResult CompleteRequestList()
+        {
+            ZeroHungerContext db = new ZeroHungerContext();
+            var reqList = from a in db.AssignedRequests
+                          join e in db.Employees on a.EmployeeId equals e.Id
+                          join c in db.CollectRequests on a.CollectRequestId equals c.Id
+                          join f in db.FoodItems on c.Id equals f.CollectRequestId
+                          join r in db.Resturants on c.ResturantId equals r.Id
+                          where c.Status.Equals("Completed")
+                          select new
+                          {
+                              FoodName = f.Name,
+                              FoodQuantity = f.Quantity,
+                              ResturantName = r.Name,
+                              ResturantAddress = r.Address,
+                              StartTime = c.StartTime,
+                              EndTime = c.EndTime,
+                              ResturantContact = r.Contact,
+                              Status = c.Status,
+                              EmpName = e.Name,
+                              EmpContact = e.Contact
+                          };
+            var completedRequests = new List<AssignedRequestModel>();
+            foreach (var item in reqList)
+            {
+                AssignedRequestModel completedRequest = new AssignedRequestModel
+                {
+                    ResturantName = item.ResturantName,
+                    ResturantAddress = item.ResturantAddress,
+                    ResturantContact = item.ResturantContact,
+                    FoodName = item.FoodName,
+                    FoodQuantity = item.FoodQuantity,
+                    DeliveredBy = item.EmpName,
+                    DeliveredByContact = item.EmpContact,
+                    StartTime = item.StartTime,
+                    EndTime = item.EndTime,
+                    Status = item.Status
+                };
+                completedRequests.Add(completedRequest);
+            }
+            return View(completedRequests);
         }
     }
 }

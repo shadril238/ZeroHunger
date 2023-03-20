@@ -29,7 +29,7 @@
             <td>@item.Status</td>
 
             <form action="" method="post">
-            <td>@Html.DropDownList("EmployeeId ", (SelectList)ViewBag.Employees, "Assign an Employee")</td>
+            <td>@Html.DropDownList("EmployeeId", (SelectList)ViewBag.Employees, "Assign an Employee")</td>
             <input type="hidden" name="CollectRequestId" value="@item.Id" />
             <td><input type="submit" value="Assign" class="btn btn-danger"></td>
             </form>

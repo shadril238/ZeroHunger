@@ -16,7 +16,7 @@ namespace ZeroHunger.EF.Models
         [Required]
         public DateTime EndTime { get; set; }
         [Required, StringLength(10)]
-        public string Status { get; set; }
+        public string Status { get; set; } 
         [Required, ForeignKey("Resturant")]
         public int ResturantId { get; set; }
         public virtual Resturant Resturant { get; set; }
