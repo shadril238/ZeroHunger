@@ -163,5 +163,29 @@ namespace ZeroHunger.Controllers
             }
             return View(completedRequests);
         }
+
+        public ActionResult EmployeeList()
+        {
+            ZeroHungerContext db = new ZeroHungerContext();
+            var emp=(from e in db.Employees
+                     where e.Role.Equals("employee")
+                     select e).ToList();
+            return View(emp);
+
+        }
+        [HttpGet]
+        public ActionResult CreateEmployee() 
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateEmployee(Employee emp)
+        {
+            ZeroHungerContext db=new ZeroHungerContext();
+            db.Employees.Add(emp);
+            db.SaveChanges();
+            TempData["Msg"] = "Success";
+            return RedirectToAction("EmployeeList");
+        }
     }
 }
