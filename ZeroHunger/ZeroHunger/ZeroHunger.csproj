@@ -211,6 +211,7 @@
     <Content Include="Views\Employee\DistributionHistory.cshtml" />
     <Content Include="Views\Shared\_ResturantLayout.cshtml" />
     <Content Include="Views\Resturant\AssignedRequestList.cshtml" />
+    <Content Include="Views\Resturant\CompleteRequestList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

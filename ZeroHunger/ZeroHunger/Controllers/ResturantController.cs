@@ -128,5 +128,43 @@ namespace ZeroHunger.Controllers
             }
             return View(assignedRequests);
         }
+        public ActionResult CompleteRequestList()
+        {
+            int resId = (int)Session["ResturantId"];
+            ZeroHungerContext db = new ZeroHungerContext();
+            var reqList = from a in db.AssignedRequests
+                          join e in db.Employees on a.EmployeeId equals e.Id
+                          join c in db.CollectRequests on a.CollectRequestId equals c.Id
+                          join f in db.FoodItems on c.Id equals f.CollectRequestId
+                          join r in db.Resturants on c.ResturantId equals r.Id
+                          where c.Status.Equals("Completed") && r.Id == resId
+                          select new
+                          {
+
+                              FoodName = f.Name,
+                              FoodQuantity = f.Quantity,
+                              StartTime = c.StartTime,
+                              EndTime = c.EndTime,
+                              Status = c.Status,
+                              EmpName = e.Name,
+                              EmpContact = e.Contact
+                          };
+            var completedRequests = new List<AssignedRequestModel>();
+            foreach (var item in reqList)
+            {
+                AssignedRequestModel completedRequest = new AssignedRequestModel
+                {
+                    FoodName = item.FoodName,
+                    FoodQuantity = item.FoodQuantity,
+                    DeliveredBy = item.EmpName,
+                    DeliveredByContact = item.EmpContact,
+                    StartTime = item.StartTime,
+                    EndTime = item.EndTime,
+                    Status = item.Status
+                };
+                completedRequests.Add(completedRequest);
+            }
+            return View(completedRequests);
+        }
     }
 }
