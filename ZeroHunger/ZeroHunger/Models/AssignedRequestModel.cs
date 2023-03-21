@@ -7,6 +7,7 @@ namespace ZeroHunger.Models
 {
     public class AssignedRequestModel
     {
+        public int CollectReqId { get; set; }
         public string ResturantName { get; set; }
         public string ResturantAddress { get;set; }
         public string ResturantContact { get; set; }
