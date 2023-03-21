@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ZeroHunger.Auth;
 using ZeroHunger.EF;
 using ZeroHunger.EF.Models;
 using ZeroHunger.Models;
 
 namespace ZeroHunger.Controllers
 {
+    [EmployeeAccess]
     public class EmployeeController : Controller
     {
         // GET: Employee
         public ActionResult CollectFood()
         {
+            int empId = (int)Session["EmpId"];
             ZeroHungerContext db = new ZeroHungerContext();
             var reqList = from a in db.AssignedRequests
                           join e in db.Employees on a.EmployeeId equals e.Id
                           join c in db.CollectRequests on a.CollectRequestId equals c.Id
                           join f in db.FoodItems on c.Id equals f.CollectRequestId
                           join r in db.Resturants on c.ResturantId equals r.Id
-                          where c.Status.Equals("Processing") && e.Id.Equals(2)
+                          where c.Status.Equals("Processing") && e.Id==empId
                           select new
                           {
                               CollectReqId = c.Id,
@@ -67,13 +70,14 @@ namespace ZeroHunger.Controllers
 
         public ActionResult DistributeFood()
         {
+            int empId = (int)Session["EmpId"];
             ZeroHungerContext db = new ZeroHungerContext();
             var reqList = from a in db.AssignedRequests
                           join e in db.Employees on a.EmployeeId equals e.Id
                           join c in db.CollectRequests on a.CollectRequestId equals c.Id
                           join f in db.FoodItems on c.Id equals f.CollectRequestId
                           join r in db.Resturants on c.ResturantId equals r.Id
-                          where c.Status.Equals("Collected") && e.Id.Equals(2)
+                          where c.Status.Equals("Collected") && e.Id==empId
                           select new
                           {
                               CollectReqId = c.Id,
@@ -122,13 +126,14 @@ namespace ZeroHunger.Controllers
 
         public ActionResult DistributionHistory()
         {
+            int empId = (int)Session["EmpId"];
             ZeroHungerContext db = new ZeroHungerContext();
             var reqList = from a in db.AssignedRequests
                           join e in db.Employees on a.EmployeeId equals e.Id
                           join c in db.CollectRequests on a.CollectRequestId equals c.Id
                           join f in db.FoodItems on c.Id equals f.CollectRequestId
                           join r in db.Resturants on c.ResturantId equals r.Id
-                          where c.Status.Equals("Completed") && e.Id.Equals(2)
+                          where c.Status.Equals("Completed") && e.Id==empId
                           select new
                           {
                               CollectReqId = c.Id,

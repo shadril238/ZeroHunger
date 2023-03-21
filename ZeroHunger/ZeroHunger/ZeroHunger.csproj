@@ -209,6 +209,7 @@
     <Content Include="Views\Employee\CollectFood.cshtml" />
     <Content Include="Views\Employee\DistributeFood.cshtml" />
     <Content Include="Views\Employee\DistributionHistory.cshtml" />
+    <Content Include="Views\Shared\_ResturantLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

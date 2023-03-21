@@ -4,12 +4,14 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
+using ZeroHunger.Auth;
 using ZeroHunger.EF;
 using ZeroHunger.EF.Models;
 using ZeroHunger.Models;
 
 namespace ZeroHunger.Controllers
 {
+    [AdminAccess]
     public class AdminController : Controller
     {
         // GET: Admin

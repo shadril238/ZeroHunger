@@ -30,11 +30,16 @@ namespace ZeroHunger.Controllers
                     FormsAuthentication.SetAuthCookie(emp.Email, false);
                     if (emp.Role == "admin")
                     {
+                        FormsAuthentication.SetAuthCookie(emp.Email, false);
+                        
                         return RedirectToAction("CollectRequestList", "Admin");
                     }
                     else if (emp.Role == "employee")
                     {
-                        return RedirectToAction("Dashboard", "Employee");
+                        FormsAuthentication.SetAuthCookie(emp.Email, false);
+                        Session["EmpName"] = emp.Name;
+                        Session["EmpId"] = emp.Id;
+                        return RedirectToAction("CollectFood", "Employee");
                     }
                 }
                 TempData["Msg"] = "Invalid email or password.";
@@ -63,11 +68,16 @@ namespace ZeroHunger.Controllers
                     Session["ResturantEmail"] = res.Email;
                     Session["ResturantContact"] = res.Contact;
 
-                    return RedirectToAction("CreateCollectRequest", "Resturant");
+                    return RedirectToAction("CollectRequestList", "Resturant");
                 }
                 TempData["Msg"] = "Invalid email or password.";
             }
             return View();
+        }
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("LoginEmp");
         }
     }
 }

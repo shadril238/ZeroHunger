@@ -22,9 +22,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Collect Request", "CollectRequestList", "Admin")</li>
-                    <li>@Html.ActionLink("Assigned Request", "AssignedRequestList", "Admin")</li>
-                    <li>@Html.ActionLink("Completed Request", "CompleteRequestList", "Admin")</li>
+                    <li>@Html.ActionLink("Create Collect Request", "CreateCollectRequest", "Resturant")</li>
+                    <li>@Html.ActionLink("Collect Request", "CollectRequestList", "Resturant")</li>
+                    <li>@Html.ActionLink("Assigned Request", "AssignedRequestList", "Resturant")</li>
+                    <li>@Html.ActionLink("Completed Request", "CompleteRequestList", "Resturant")</li>
                     <li>@Html.ActionLink("Log Out", "Logout", "Login")</li>
                 </ul>
             </div>
@@ -43,3 +44,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

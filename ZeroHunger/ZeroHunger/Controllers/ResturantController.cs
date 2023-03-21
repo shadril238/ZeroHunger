@@ -11,14 +11,10 @@ using ZeroHunger.Models;
 
 namespace ZeroHunger.Controllers
 {
-    //[ResturantAccess]
+    [ResturantAccess]
     public class ResturantController : Controller
     {
         // GET: Resturant
-        public ActionResult Index()
-        {
-            return View();
-        }
         [HttpGet]
         public ActionResult CreateCollectRequest()
         {
@@ -43,18 +39,20 @@ namespace ZeroHunger.Controllers
             db.FoodItems.Add(foodItem);
             db.SaveChanges();
 
-            return RedirectToAction("CollectRequestList", "Admin");
+            return RedirectToAction("CollectRequestList", "Resturant");
         }
 
         public ActionResult CollectRequestList()
         {
+            int resId = (int)Session["ResturantId"];
             ZeroHungerContext db = new ZeroHungerContext();
             var reqList = from f in db.FoodItems
                           join c in db.CollectRequests on f.CollectRequestId equals c.Id
                           join r in db.Resturants on c.ResturantId equals r.Id
-                          where r.Id == 1
+                          where r.Id ==  resId
                           select new
                           {
+                              CollReqId=c.Id,
                               FoodName = f.Name,
                               FoodQuantity = f.Quantity,
                               StartTime = c.StartTime,
@@ -65,6 +63,7 @@ namespace ZeroHunger.Controllers
             foreach (var item in reqList)
             {
                 CollectRequestModel collectRequest = new CollectRequestModel();
+                collectRequest.Id = item.CollReqId;
                 collectRequest.FoodName = item.FoodName;
                 collectRequest.FoodQuantity = item.FoodQuantity;
                 collectRequest.StartTime = item.StartTime;
@@ -73,6 +72,24 @@ namespace ZeroHunger.Controllers
                 collectRequests.Add(collectRequest);
             }
             return View(collectRequests);  
+        }
+        [HttpGet]
+        public ActionResult RemoveCollectRequest(int id)
+        {
+            ZeroHungerContext db = new ZeroHungerContext();
+            var collReq=(from c in db.CollectRequests
+                         where c.Id == id
+                         select c).SingleOrDefault();
+            db.CollectRequests.Remove(collReq);
+            db.SaveChanges();
+
+            var foodItem=(from f in db.FoodItems
+                          join c in db.CollectRequests on f.CollectRequestId equals c.Id
+                          where c.Id == id
+                          select f).SingleOrDefault();
+            db.FoodItems.Remove(foodItem);
+            db.SaveChanges();
+            return RedirectToAction("CollectRequestList");
         }
     }
 }
