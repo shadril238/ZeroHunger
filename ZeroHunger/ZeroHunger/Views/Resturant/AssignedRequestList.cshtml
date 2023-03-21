@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "AssignedRequestList";
+    Layout = "~/Views/Shared/_ResturantLayout.cshtml";
+}
+
+<h2>Assigned Request List</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>Food Name</th>
+        <th>Food Quantity</th>
+        <th>Employee Name</th>
+        <th>Employee Contact</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FoodName</td>
+            <td>@item.FoodQuantity</td>
+            <td>@item.DeliveredBy</td>
+            <td>@item.DeliveredByContact</td>
+            <td>@item.StartTime</td>
+            <td>@item.EndTime</td>
+            <td>@item.Status</td>
+        </tr>
+    }
+</table>
+
+

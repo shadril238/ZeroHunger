@@ -86,7 +86,7 @@ namespace ZeroHunger.Controllers
                           join c in db.CollectRequests on a.CollectRequestId equals c.Id
                           join f in db.FoodItems on c.Id equals f.CollectRequestId
                           join r in db.Resturants on c.ResturantId equals r.Id
-                          where c.Status.Equals("Processing")
+                          where (c.Status.Equals("Processing") || c.Status.Equals("Collected"))
                           select new
                           {
                               FoodName = f.Name,

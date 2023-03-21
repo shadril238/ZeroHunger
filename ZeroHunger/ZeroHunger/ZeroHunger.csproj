@@ -210,6 +210,7 @@
     <Content Include="Views\Employee\DistributeFood.cshtml" />
     <Content Include="Views\Employee\DistributionHistory.cshtml" />
     <Content Include="Views\Shared\_ResturantLayout.cshtml" />
+    <Content Include="Views\Resturant\AssignedRequestList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
