@@ -182,6 +182,7 @@ namespace ZeroHunger.Controllers
         public ActionResult CreateEmployee(Employee emp)
         {
             ZeroHungerContext db=new ZeroHungerContext();
+            emp.Role = "employee";
             db.Employees.Add(emp);
             db.SaveChanges();
             TempData["Msg"] = "Success";
